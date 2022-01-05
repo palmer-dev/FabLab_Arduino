@@ -126,13 +126,7 @@ void loop()
 // ===== Verification pour savoir si le badge est dans la liste des badges authorisés =====
 boolean In_Array(String authorisez[], String readed){
   for (int i = 0; i < calibrationTime + 1; i++)
-  {
-    if (authorisez[i] == readed)
-    {
-      return true;
-    }
-    
-  }
+  {if (authorisez[i] == readed){return true;}}
   return false;
 }
 
@@ -176,9 +170,8 @@ boolean setup_mqtt(){
   if (client.connect("Arduino_FabLab_WebTech")){ // On donne ce nom émetteur à l'arduino et on tente de se connecter
     client.disconnect();
     return true;
-  }else{
-    return false; // SI on arrive pas à jointre le serveur mqtt on désactive la fonction pour ne pas ralentir le programme
   }
+  else{return false;} // SI on arrive pas à jointre le serveur mqtt on désactive la fonction pour ne pas ralentir le programme
 }
 
 
@@ -188,13 +181,9 @@ void function_Auto(){
     if (SoundSensor()){ // Si le capteur de son entend quelqu'un on envoie au serveur MQTT l'ordre de présence
       mqtt_publish("WebTech/FabLab/MQTT/FMACLM", "Presence Detected");
     }
-    else{ // Si non capteur de son entend quelqu'un on envoie au serveur MQTT l'ordre de présence (si il n'a pas déjà été envoyé)
-      mqtt_publish("WebTech/FabLab/MQTT/FMACLM", "No more presence detected"); 
-    }
+    else{mqtt_publish("WebTech/FabLab/MQTT/FMACLM", "No more presence detected");}// Si non capteur de son entend quelqu'un on envoie au serveur MQTT l'ordre de présence (si il n'a pas déjà été envoyé)
   }
-  else{
-    mqtt_publish("WebTech/FabLab/MQTT/FMACLM", "Presence Detected");
-  }
+  else{mqtt_publish("WebTech/FabLab/MQTT/FMACLM", "Presence Detected");}
 }
 
 void function_Manuelle(){
@@ -209,9 +198,7 @@ int getID()
 {
   readCard = ""; // Vidage de la variable du nom du badge lu
   if ( (! mfrc522.PICC_IsNewCardPresent()) || (! mfrc522.PICC_ReadCardSerial()) ) //vérification si carte
-  {
-     return 0;
-  }
+  {return 0;}
 
   // Enregistrement du nom du badge lu 
   for (int i = 0; i < mfrc522.uid.size; i++) {  
